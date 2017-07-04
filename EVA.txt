@@ -1,0 +1,192 @@
+basic things needed:
+
+- heatmap
+- pathfinding
+- simulation
+- action/interaction
+- prerequisites/consequences
+
+action analysis: 	- cost, prerequisites
+			- trace required (abstract) actions recursively until stopgap
+			- optimize recurring traces to immediately point to first requisite
+			- tiers: ordered list, rearrange once cost-effectiveness changes
+			- tiers: include time element (prioritize higher tiers as time passes, only switch back in emergencies)
+
+heatmap: 	- in conjunction with pathfinding, map vertexes given "heat" rating based on game state dimensions
+		- can be contextual (different for different actions and intentions)
+
+value/fitness/cost system:	- keyword-based classes (code is self-descriptive, will contain same type of list as manuals, i.e "armored, anit-air" etc.)
+				- start with cost, use it as "point distribution" (similar to RPGs), optimize
+				- cost is STRATEGIC, can be tactically lower value
+				- hierarchy: Zipf-based, calculated from cost; 1st is intelligence (1), 2nd is resources (1/2), 3rd is assets (1/3), etc. 
+				- cost may be later modified for balance
+				- Value system: graph --> vertexes are value types, edges are relations --> weighted edges and routing algorithms
+
+simulations & time calculations: 	- AI needs to predict time costs of plans
+					- simulation system to test scenarios
+					- "tutorials" for the AI to get at least high-level understanding of new assets
+
+strategic level: - CABAL creates planned distribution of resources, prioritizes actions that benefit the type furthest below threshold (e.g builds tanks if armor is below required amount)
+		 - CABAL responds to events, re-evaluates game state, decides on strategic level what course to take
+		 - quasi-genetic algorithm: first choice is first best, subsequent determined by success/failure rate (more failures: higher pressure to change strategy)
+		 - historical analysis: do offline?
+
+
+tactical level: - Commanders respond to events (new intelligence, unexpected enemy action, etc.) and work to meet strategic level demands
+		- Commanders propose plans based on their preference (as opposed to exhaustive analysis of all possible plans), voting on best candidates, paralellization
+		- quasi-genetic algorithm: first choice is first best, subsequent determined by success/failure rate (more failures: higher pressure to change tactics)
+		- historical analysis: do offline?
+
+action level:   - first obvious choice, analyze later
+		- genetic algorithm? neural network?
+		- analyze only if higher level predictions were incorrect --> lower level actions may have influenced outcome
+		- tutorial mode: present basic scenario, AI may test other variations later
+		- action chains: memorize VAGUELY what the AI chose to make selection easier later
+
+heatmap: 	- different roles on the 3 levels
+		- strategic: assess regional strengths & resources
+		- tactical: specific characteristics of assets
+		- action: asset parameters (e.g attack and sight range) to create regions (similar to Dubins & Reeds Shepp vehicle)
+
+memory: - possibly based on replay system? (Generals, C&C3, SC2 poop)
+	- need method for fast access & fast decision making, based on human reflexes (fuzzy representation? strategic value based? heatmap based? keyword based?)
+	- storage issues (store only replays? only specific scenarios worthy of analysis? refine recurring scenarios?)
+	- fuzzy or difference-based comparison system: store similar scenarios as one case, count number of occurences and aggregate the strategies employed
+	- possible solution: store in multiple layers of abstraction (overall game state --> strategic level --> tactical level --> individual actions)
+
+events and key points:  - when threshold is crossed on interactions and effects, an event is marked on the map (later explored by memory)
+			- key points are calculated based on subject, can be economy (e.g Tiberium fields), enemy positions, etc.
+			- proposal for key points: K-Means method
+			- prerequisites: analyze if plan leads through the key points, they may need to be engaged
+
+planning & outcome analysis:	- if strategic and tactical data obviously correlate with the result, no deeper analysis needed
+				- if prediction based on data does not reflect outcome, analyze deeper, optimize actions accordingly
+				- always analyze along the most "logical" path, i.e which action is most profitable (e.g "attacking is suicidal, so I have to evade --> how to evade?")
+				- develop "reflexes" --> do not run analysis again for familiar scenarios, jump ahead to planning necessary action(s)
+
+enemy actions:  - calculate changes to game state (immediate and potential)
+		- project likely enemy plan --> countermeasures
+		- re-evaluate plans if necessary
+		- anticipate that enemy will exploit weakness (determine based on composition of their action), trust system (i.e "is it deception?")
+
+context system: - theoretical, may not be important
+		- human interpretation of stimuli is contextual, similar mechanism for AI(?)
+		- example: ...
+
+other:		- instead of specific states, AI has awareness of its position in a multi-dimensional state-space
+		- "states" are developed procedurally, AI creates solution (or finds if previous method works)
+		- do not seek optimal points, concentrate on fitness (i.e is it growing?)
+
+UNSOLVED:	1) "cutoff point" in planning, i.e how to make sure AI makes quick, decent solutions without exploring too many possibilities, but WITHOUT providing specific code
+		example: evade enemy fire, choose a simple destination to move to instead of assessing entire map
+		1) Potential solution --> reflexes, choose 1st best, halt if danger avoided
+			- good cost analysis can help too (i.e moving all the way across the map would take way too long)
+		2) 
+
+OTHER:		- Experimentation: simulate different solutions and try to find correlations
+
+static class EVA{
+
+	private CABAL (list?)
+
+	private Commanders (list?)
+
+	private Tacitus (collection?)
+
+	private Tiberium (collection?)
+	
+	...
+
+	public functs:
+	
+	loadCABAL
+	
+	createCABAL
+
+	loadCommanders
+
+	createCommanders
+
+	seedTiberium
+
+	gatherData
+
+	dataAnalysis
+
+	...
+
+	
+}
+
+class CABAL{
+
+//Agents that work on strategic level
+
+
+}
+
+class Commander{
+
+//Agents that work on tactical level
+
+}
+
+class Tacitus{
+
+//Memory & context system for the AI
+
+}
+
+class Tiberium{
+
+//Value system
+
+}
+
+class Plan{
+
+//Object that aggregates higher level actions
+
+}
+
+class Action{
+
+//Object that aggregates lower level actions
+
+}
+
+class Interaction{
+
+//Object that analyzes interactions <--- needed?
+
+}
+
+class GameEvent{
+
+//Object that aggregates a significant event (formed when state change rate is above threshold)
+
+}
+
+class GameMap{
+
+//Object that gives Agents a clear view of the game world (pathfinding?)
+
+}
+
+class HeatMap{
+
+//component for GameMap to include analysis
+
+}
+
+class NeuralNetwork{
+
+//Implement a NN system, used for certain functions (e.g unsupervised learning, more efficient search & analysis)
+
+}
+
+class GeneticSystem{
+
+//Implement system using genetic algorithm(s), used for certain functions (e.g lower level action optimization)
+
+}
