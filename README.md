@@ -1,4 +1,4 @@
-# CABAL BW project
+# EVA BW project
 
 ## Descritpion
 A little project based on the BWAPI Java wrapper.
