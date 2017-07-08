@@ -13,10 +13,14 @@ The starter tutorial misses a few critical steps.
 
 Starcraft
 |-- bwapi-data
+
   |-- bwapi.ini
+  
   |-- BWAPI.dll
+  
   |-- data
-    |-- Broodwar.map
+  
+     |-- Broodwar.map
     
 Otherwise, Chaoslauncher will freeze.
 
