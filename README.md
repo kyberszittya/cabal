@@ -11,16 +11,13 @@ The starter tutorial misses a few critical steps.
 3. Check whether Chaoslauncher works (update the Starcraft installation path)
 4. Create a folder in Starcraft installation folder (bwapi-data) and copy the BWAPI.dll, initial configuration (bwapi.ini) and the mappping file to the Starcraft installation folder. The folder Structure should look like this:
 
-Starcraft
-|-- bwapi-data
-
-  |-- bwapi.ini
-  
-  |-- BWAPI.dll
-  
-  |-- data
-  
-     |-- Broodwar.map
+* Starcraft
+  * bwapi-data
+    * data
+      * Broodwar.map
+    * bwapi.ini
+    * BWAPI.dll
+    
     
 Otherwise, Chaoslauncher will freeze.
 
