@@ -1,0 +1,91 @@
+EVA-BW Phase 1:
+"EVA Strategic Assistant"
+
+Goal: 	
+
+		Create an AI agent that can analyze the game's progress in real-time and provide advice to the player on optimal strategies.
+		This advice would be vague and on strategic level only, e.g to initiate base expansion, reconnaissance, attack, defence, etc.
+		These would appear as prompts to the player (audio/text cue, highlight on the minimap, etc). Decisions by agent would serve 
+		as the foundation for lower-level planning, later implementations would assemble these points of advice as "plans" and work
+		out tactical executions.
+		
+Requirements:
+
+		1) 	Specification of required data dimensions. The primary data dimensions are resources (i.e minerals & gas), time, and 
+			intelligence. The latter two must be further specified, and plans for adaptive analysis need to be projected. Further 
+			dimensions need to be defined based on the specifics of the game.
+			
+		2) 	Specification of a value system for the AI. Since its learning process will require a "score" the AI must strive to increase,
+			we need to specify how this value will change depending on changes in the data dimensions described above. This "score" can
+			also be multi-dimensional to allow a wider range of AI evolution.
+			
+		3) 	Specification of the internal processes of the AI. All programming must be as implicit as possible, allowing the AI to
+			develop its own explicit behavior. This requires that we develop the "components" of the AI's "mind", which it can then
+			use to assemble plans of action that maximize its score. The AI must be able to analyze not just the game state, but its own
+			capabilities.
+			
+		4) 	Player-AI interface that permits interaction between the AI and the player. This may include the option to pause the game,
+			evaluate the AI's decisions, and choose to accept or reject them. The AI's learning process must incorporate this human input
+			as well. AI can observe human activity and begin to develop understanding of the game.
+			
+Methods:
+		
+		1) 	Develop a library of key indicators that will identify the various objects, concepts, and actions in the game (e.g "units", 
+			"resources", "move", "gather", "attack", etc.)
+		
+		2) 	Develop a graph that contains associations between indicators. This will allow the AI to deduce the relationships between entities
+			and actions (e.g "attack impacts units negatively")
+			
+		3) 	Create a self-analysis subroutine. Once the model is loaded, the AI can continuously analyze it, developing and refining its
+			own understanding of the model. Observed behavior will be "fitted" to the model, depending on how much it diverges from the norm
+			(small deviations are ignored to save overhead)
+		
+		4) 	Store accumulated knowledge in quickly searchable databank (inspired by Google?) When facing a new situation, the AI would "research"
+			its own knowledgebase to find a potential solution.
+			
+		5) 	Create an efficient memory and recognition subroutine: if scenarios are similar, and a proven solution is available, bypass the
+			"research" phase and implement previous	solution. Re-evaluate in case of failure and store in memory.
+			
+		6) 	Create a multi-dimensional "heatmap" of the current map. This will contain the "hot spots" of the relevant data dimension, e.g resource
+			"hot spots" would be near minerals and geysers. AI would adaptively adjust the area of these spots based on experience (e.g enemy units
+			would start as singular points, "hot spots" would grow since enemies can attack at range). This will help with pathfinding and to locate
+			points of focus.
+			
+		7)	Create "simulation" subroutine: AI could project the outcome of actions, initially based on most obvious result (e.g "mining will increase
+			available resource amount"), adjust upon gaining experience. If CPU resources allow, AI can perform simulations in real-time, otherwise it
+			performs them offline during training phase. When model is loaded, AI can either generate scenarios or receive user-defined ones and run
+			simulations. Behavior of model components is analyzed, allowing the AI to develop responses to scenarios (e.g "air units are vulnerable to
+			AA units")
+			
+		8)	Create localization logic (closely linked to heatmap): AI must adaptively determine how actions/reactions must be localized. When analyzing
+			a point of interest, the AI must only take into account assets (both enemy and friendly) that are within "practical range" of the point
+			in question. For example, while the enemy may have a large army, if it's on the other half of the map at the time, it cannot affect the 
+			outcome of a sneak attack in their base. Same logic can be applied to other concepts (recon, eco, etc.)
+			
+		9)	Create a planner (strategic level only): AI analyzes incoming data and determines how game state should change until the next "phase"
+			(frequency of adjusting plans can be adaptively changed). Plan is determined according to costs involved, actions are chosen if they
+			fit into the "cost range" the agent can "afford"
+		
+		10)	Create a recursive analysis between goals and available commands: linked to planner, once the AI has created a plan, it recursively
+			analyzes which actions will (in theory) bring about the required changes. Links are developed to form a set of "reflexes" -- once
+			certain actions repeatedly move along the same "channels" (e.g "increase resources" always results in "build miners and send them to mine"),
+			they become "reflexes", and the AI no longer performs any recursive analysis on them. Reflexes can be linked with time as well, so
+			for example it can learn what it should do in the first few minutes of the game.
+			
+		11) Create Human-AI interface. AI prompts the player to act at set intervals, depending on game state. Player can choose to accept/evaluate
+			suggestions, which will influence the learning curve of the AI. "Translation" routine is required, which will be linked to the actions
+			the AI can choose (i.e if a plan contains a set of actions, then each action will contain a specified description, which can be extracted
+			and linked together to form a prompt, e.g "Send miners to X: ... Y: ..."
+			
+NOTES:
+
+		- 	All concepts (units, actions, etc.) must be VAGUE. A key feature is that the AI only stores implicit connections, its "memories" will 
+			contain "fuzzy" information only. The explicit parameters will be determined according to the situation at hand. For example, the AI will
+			know from memory that it can respond to enemy air with Goliaths/Dragoons/etc., but the required number and deployment will not be
+			specified (or only in vague "rules of thumb")
+		
+		-	Planning will require stripping away details specific to franchise. While RTS games differ in many aspects, the core details and mechanics 
+			are universal. Only these should be specified and used as the basis, nothing specific to Starcraft (names, mechanics, etc.) should be used,
+			and this should make the system flexible enough to be used in other games as well. Even unconventional mechanics (such as units that move
+			in non-conventional ways) can be expressed as a combination of the core data dimensions (e.g a unit that can teleport can be described as
+			having "movement with zero time cost")
