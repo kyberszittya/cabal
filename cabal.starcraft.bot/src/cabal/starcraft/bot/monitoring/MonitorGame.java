@@ -1,18 +1,25 @@
 package cabal.starcraft.bot.monitoring;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bwapi.Game;
 import bwapi.Player;
+import bwapi.Unit;
 
 public class MonitorGame {
-	public void monitorFrame(Game game){
-		game.getPlayers().forEach((p)->{
-			p.allUnitCount();
-			p.getUnits().forEach((u)->{
-				System.out.print(u.getPosition().getX());
-				System.out.print(" ");
-				System.out.println(u.getPosition().getY());
-				System.out.println(u.getType());
-			});
-		});
+	private Game currentGame;
+	
+	private Map<Unit, UnitData> loggedUnits;
+	
+	public MonitorGame(){
+		
+		loggedUnits = new HashMap<Unit, UnitData>();
+	}
+		
+	public String logNewUnitBuilt(Unit unit, int spawnTime){
+		loggedUnits.put(unit, new UnitData(unit, spawnTime));
+		System.out.println(loggedUnits.get(unit).toString());
+		return loggedUnits.get(unit).toString();
 	}
 }

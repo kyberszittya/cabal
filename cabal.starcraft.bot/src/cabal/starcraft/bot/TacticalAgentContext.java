@@ -29,13 +29,12 @@ public class TacticalAgentContext extends DefaultBWListener {
 	// Event oriented approach	
 	private AgentEventNotifier agentEventSource;
 	
-	public TacticalAgentContext(){
-		game_monitor = new MonitorGame();
+	public TacticalAgentContext(){		
 		tacticalAgents = new ArrayList<TacticalAgent>();
 		economicAgents = new ArrayList<EconomicAgent>();
 		agentList = new ArrayList<AgentInterface>();
 		agentEventSource = new AgentEventNotifier();		
-		
+		game_monitor = new MonitorGame();
 	}
 	
 	public void addTacticalAgent(TacticalAgent agent){
@@ -99,11 +98,17 @@ public class TacticalAgentContext extends DefaultBWListener {
 	
 	@Override
 	public void onUnitCreate(Unit created_unit) {
-		
-		if (created_unit.getType().isWorker()){
-			System.out.println("New worker: "+created_unit.getType());
-			economicAgents.get(0).newWorker(created_unit);
+		try {
+			if (created_unit.getType().isWorker()){
+				economicAgents.get(0).newWorker(created_unit);
+				game.drawTextScreen(10, 20, 
+						game_monitor.logNewUnitBuilt(created_unit,
+								game.elapsedTime()));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
+		
 	}
 	
 	@Override
