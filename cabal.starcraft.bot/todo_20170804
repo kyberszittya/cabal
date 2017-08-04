@@ -1,0 +1,13 @@
+Legminimálisabb szinten:
+
+> Bot felügyelje mi történik
+-> Játékállapot (erõforrás, egységek)
+-> Játékállapot tükrözi a valóságot
+-> Információs rendszer kialakítása
+--> Magas szinten elemezhessük
+-> Jelentéseket küldjön a játéknak (játékosnak)
+
+
+> Monitorozás
+-> Adapter
+-> Vizualizációs komponensek
